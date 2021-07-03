@@ -1,0 +1,481 @@
+function Figur (name, farbe, feld, bild, nummer=0) {
+    this.name = name;
+    this.farbe = farbe;
+    this.feld = feld;
+    this.bild = bild;
+    this.nummer = nummer;
+}
+
+var bauer_weiss_1 = new Figur("bauer", "weiß", "a2", "Bilder/bauer_weiss.png", 1),
+bauer_weiß_2 = new Figur("bauer", "weiß", "b2", "Bilder/bauer_weiss.png", 2),
+bauer_weiß_3 = new Figur("bauer", "weiß", "c2", "Bilder/bauer_weiss.png", 3),
+bauer_weiß_4 = new Figur("bauer", "weiß", "d2", "Bilder/bauer_weiss.png", 4),
+bauer_weiß_5 = new Figur("bauer", "weiß", "e2", "Bilder/bauer_weiss.png", 5),
+bauer_weiß_6 = new Figur("bauer", "weiß", "f2", "Bilder/bauer_weiss.png", 6),
+bauer_weiß_7 = new Figur("bauer", "weiß", "g2", "Bilder/bauer_weiss.png", 7),
+bauer_weiß_8 = new Figur("bauer", "weiß", "h2", "Bilder/bauer_weiss.png", 8),
+laeufer_weiß_1 = new Figur("läufer", "weiß", "c1", "Bilder/laeufer_weiss.png", 1),
+laeufer_weiß_2 = new Figur("läufer", "weiß", "f1", "Bilder/laeufer_weiss.png", 2),
+springer_weiß_1 = new Figur("springer", "weiß", "b1", "Bilder/springer_weiss.png", 1),
+springer_weiß_2 = new Figur("springer", "weiß", "g1", "Bilder/springer_weiss.png", 2),
+turm_weiß_1 = new Figur("turm", "weiß", "a1", "Bilder/turm_weiss.png", 1),
+turm_weiß_2 = new Figur("turm", "weiß", "h1", "Bilder/turm_weiss.png", 2),
+dame_weiß = new Figur("dame", "weiß", "d1", "Bilder/dame_weiss.png"),
+koenig_weiß = new Figur("könig", "weiß", "e1", "Bilder/koenig_weiss.png"),
+
+bauer_schwarz_1 = new Figur("bauer", "schwarz", "a7", "Bilder/bauer_schwarz.png", 1),
+bauer_schwarz_2 = new Figur("bauer", "schwarz", "b7", "Bilder/bauer_schwarz.png", 2),
+bauer_schwarz_3 = new Figur("bauer", "schwarz", "c7", "Bilder/bauer_schwarz.png", 3),
+bauer_schwarz_4 = new Figur("bauer", "schwarz", "d7", "Bilder/bauer_schwarz.png", 4),
+bauer_schwarz_5 = new Figur("bauer", "schwarz", "e7", "Bilder/bauer_schwarz.png", 5),
+bauer_schwarz_6 = new Figur("bauer", "schwarz", "f7", "Bilder/bauer_schwarz.png", 6),
+bauer_schwarz_7 = new Figur("bauer", "schwarz", "g7", "Bilder/bauer_schwarz.png", 7),
+bauer_schwarz_8 = new Figur("bauer", "schwarz", "h7", "Bilder/bauer_schwarz.png", 8),
+laeufer_schwarz_1 = new Figur("läufer", "schwarz", "c8", "Bilder/laeufer_schwarz.png", 1),
+laeufer_schwarz_2 = new Figur("läufer", "schwarz", "f8", "Bilder/laeufer_schwarz.png", 2),
+springer_schwarz_1 = new Figur("springer", "schwarz", "b8", "Bilder/springer_schwarz.png", 1),
+springer_schwarz_2 = new Figur("springer", "schwarz", "g8", "Bilder/springer_schwarz.png", 2),
+turm_schwarz_1 = new Figur("turm", "schwarz", "a8", "Bilder/turm_schwarz.png", 1),
+turm_schwarz_2 = new Figur("turm", "schwarz", "h8", "Bilder/turm_schwarz.png", 2),
+dame_schwarz = new Figur("dame", "schwarz", "d8", "Bilder/dame_schwarz.png"),
+koenig_schwarz = new Figur("könig", "schwarz", "e8", "Bilder/koenig_schwarz.png"),
+
+figuren = [bauer_weiss_1, bauer_weiß_2, bauer_weiß_3, bauer_weiß_4, bauer_weiß_5, bauer_weiß_6, bauer_weiß_7, bauer_weiß_8, laeufer_weiß_1, laeufer_weiß_2, springer_weiß_1, springer_weiß_2, turm_weiß_1, turm_weiß_2, dame_weiß, koenig_weiß, bauer_schwarz_1, bauer_schwarz_2, bauer_schwarz_3, bauer_schwarz_4, bauer_schwarz_5, bauer_schwarz_6, bauer_schwarz_7, bauer_schwarz_8, laeufer_schwarz_1, laeufer_schwarz_2, springer_schwarz_1, springer_schwarz_2, turm_schwarz_1, turm_schwarz_2, dame_schwarz, koenig_schwarz];
+
+for (i=0; i < figuren.length; i++) {
+    document.getElementById(figuren[i].feld).children[0].src = figuren[i].bild;
+
+    if (figuren[i].name == "bauer") {
+        document.getElementById(figuren[i].feld).children[0].style.marginLeft = "17px";
+    }
+    else if (figuren[i].name == "turm") {
+        document.getElementById(figuren[i].feld).children[0].style.marginLeft = "13px";
+    }
+}
+
+var ausgewaehlt = "", moeglich = [], amZug = 1;
+
+var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
+
+//senkrechte
+
+for (i = 0; i <= 7; i++) {
+    var senkrechte = [];
+
+    for (i2 = 1; i2 <= 8; i2++) {
+        senkrechte.push(buchstaben[i] + i2);
+    }
+
+    senkrechten.push(senkrechte);
+}
+
+//waagerechte
+
+for (i = 0; i <= 8; i++) {
+    var waagerechte = [];
+
+    for (i2 = 1; i2 <= 7; i2++) {
+        waagerechte.push(buchstaben[i2] + i);
+    }
+
+    waagerechten.push(waagerechte);
+}
+
+//diagonalen1
+
+for (i = 8; i > 0; i--) {
+    var diagonale = [], buchstabe_index = 0;
+
+    for (i2 = i; i2 <= 8; i2++) {
+        diagonale.push(buchstaben[buchstabe_index] + i2);
+        buchstabe_index += 1;
+    }
+
+    diagonalen_1.push(diagonale);
+}
+
+for (i = 1; i <= 7; i++) {
+    var diagonale = [], zahl = 1;
+
+    for (i2 = i; i2 <= 7; i2++) {
+        diagonale.push(buchstaben[i2] + zahl);
+        zahl += 1;
+    }
+
+    diagonalen_1.push(diagonale);
+}
+
+//diagonalen2
+
+for (i = 0; i <= 7; i++) {
+    var diagonale = [], zahl = 1;
+
+    for (i2 = i; i2 >= 0; i2--) {
+        diagonale.push(buchstaben[i2] + zahl);
+        zahl += 1;
+    }
+
+    diagonalen_2.push(diagonale);
+}
+
+for (i = 2; i <= 8; i++) {
+    var diagonale = [], buchstabe_index = 7;
+
+    for (i2 = i; i2 <= 8; i2++) {
+        diagonale.push(buchstaben[buchstabe_index] + i2);
+        buchstabe_index -= 1;
+    }
+
+    diagonalen_2.push(diagonale);
+}
+
+function felder_moeglich () {
+    var moeglich_l = [];
+
+    if (ausgewaehlt.name == "bauer") {
+        if (ausgewaehlt.farbe == "weiß") {
+            for (i = 0; i < senkrechten.length; i++) {
+                if (senkrechten[i].includes(ausgewaehlt.feld)) {
+                    for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                        if (senkrechten[i][i2] == ausgewaehlt.feld) {
+                            var frei = true;
+
+                            for (i3 = 0; i3 < figuren.length; i3++) {
+                                if (figuren[i3].feld == senkrechten[i][i2 + 1]) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (ausgewaehlt.feld[1] == "2") {
+                                    for (i3 = 0; i3 < figuren.length; i3++) {
+                                        if (figuren[i3].feld == senkrechten[i][i2 + 2]) {
+                                            frei = false;
+                                        }
+                                    }
+
+                                    if (frei === true) {
+                                        moeglich_l.push(senkrechten[i][i2 + 1], senkrechten[i][i2 + 2]);
+                                    }
+                                }
+                                else {
+                                    moeglich_l.push(senkrechten[i][i2 + 1]);
+                                }
+                            }
+                        }
+                    }
+
+                    for (b = 0; b < buchstaben.length; b++) {
+                        if (buchstaben[b] == ausgewaehlt.feld[0]) {
+                            for (i2 = 0; i2 < figuren.length; i2++) {
+                                if (parseInt(figuren[i2].feld[1]) == parseInt(ausgewaehlt.feld[1]) + 1 && figuren[i2].feld[0] == buchstaben[b + 1] || parseInt(figuren[i2].feld[1]) == parseInt(ausgewaehlt.feld[1]) + 1 && figuren[i2].feld[0] == buchstaben[b - 1]) {
+                                    moeglich_l.push(figuren[i2].feld);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            for (i = 0; i < senkrechten.length; i++) {
+                if (senkrechten[i].includes(ausgewaehlt.feld)) {
+                    for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                        if (senkrechten[i][i2] == ausgewaehlt.feld) {
+                            var frei = true;
+
+                            for (i3 = 0; i3 < figuren.length; i3++) {
+                                if (figuren[i3].feld == senkrechten[i][i2 - 1]) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (ausgewaehlt.feld[1] == "7") {
+                                    for (i3 = 0; i3 < figuren.length; i3++) {
+                                        if (figuren[i3].feld == senkrechten[i][i2 - 2]) {
+                                            frei = false;
+                                        }
+                                    }
+
+                                    if (frei === true) {
+                                        moeglich_l.push(senkrechten[i][i2 - 1], senkrechten[i][i2 - 2]);
+                                    }
+                                }
+                                else {
+                                    moeglich_l.push(senkrechten[i][i2 - 1]);
+                                }
+                            }
+                        }
+                    }
+
+                    for (b = 0; b < buchstaben.length; b++) {
+                        if (buchstaben[b] == ausgewaehlt.feld[0]) {
+                            for (i2 = 0; i2 < figuren.length; i2++) {
+                                if (parseInt(figuren[i2].feld[1]) == parseInt(ausgewaehlt.feld[1]) - 1 && figuren[i2].feld[0] == buchstaben[b + 1] || parseInt(figuren[i2].feld[1]) == parseInt(ausgewaehlt.feld[1]) - 1 && figuren[i2].feld[0] == buchstaben[b - 1]) {
+                                    moeglich_l.push(figuren[i2].feld);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else if (ausgewaehlt.name == "läufer") {
+        for (i = 0; i < diagonalen_1.length; i++) {
+            if (diagonalen_1[i].includes(ausgewaehlt.feld)) {
+                for (i2 = 0; i2 < diagonalen_1[i].length; i2++) {
+                    if (diagonalen_1[i][i2] == ausgewaehlt.feld) {
+                        for (i3 = i2; i3 < diagonalen_1.length; i3++) {
+                            var frei = true, schlagen = false, selbst = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == diagonalen_1[i][i3]) {
+                                    if (figuren[f] != ausgewaehlt) {
+                                        frei = false;
+
+                                        if (figuren[f].farbe != ausgewaehlt.farbe) {
+                                            schlagen = true;
+                                        }
+                                    }
+                                    else {
+                                        selbst = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (selbst === false) {
+                                    moeglich_l.push(diagonalen_1[i][i3]);
+                                }
+                            }
+                            else {
+                                if (schlagen === true) {
+                                    moeglich_l.push(diagonalen_1[i][i3]);
+                                }
+
+                                break;
+                            }
+                        }
+
+                        for (i3 = i2; i3 >= 0; i3--) {
+                            var frei = true, schlagen = false, selbst = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == diagonalen_1[i][i3]) {
+                                    if (figuren[f] != ausgewaehlt) {
+                                        frei = false;
+
+                                        if (figuren[f].farbe != ausgewaehlt.farbe) {
+                                            schlagen = true;
+                                        }
+                                    }
+                                    else {
+                                        selbst = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (selbst === false) {
+                                    moeglich_l.push(diagonalen_1[i][i3]);
+                                }
+                            }
+                            else {
+                                if (schlagen === true) {
+                                    moeglich_l.push(diagonalen_1[i][i3]);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (i = 0; i < diagonalen_2.length; i++) {
+            if (diagonalen_2[i].includes(ausgewaehlt.feld)) {
+                for (i2 = 0; i2 < diagonalen_2[i].length; i2++) {
+                    if (diagonalen_2[i][i2] == ausgewaehlt.feld) {
+                        for (i3 = i2; i3 < diagonalen_2.length; i3++) {
+                            var frei = true, schlagen = false, selbst = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == diagonalen_2[i][i3]) {
+                                    if (figuren[f] != ausgewaehlt) {
+                                        frei = false;
+
+                                        if (figuren[f].farbe != ausgewaehlt.farbe) {
+                                            schlagen = true;
+                                        }
+                                    }
+                                    else {
+                                        selbst = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (selbst === false) {
+                                    moeglich_l.push(diagonalen_2[i][i3]);
+                                }
+                            }
+                            else {
+                                if (schlagen === true) {
+                                    moeglich_l.push(diagonalen_2[i][i3]);
+                                }
+
+                                break;
+                            }
+                        }
+
+                        for (i3 = i2; i3 >= 0; i3--) {
+                            var frei = true, schlagen = false, selbst = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == diagonalen_2[i][i3]) {
+                                    if (figuren[f] != ausgewaehlt) {
+                                        frei = false;
+
+                                        if (figuren[f].farbe != ausgewaehlt.farbe) {
+                                            schlagen = true;
+                                        }
+                                    }
+                                    else {
+                                        selbst = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true) {
+                                if (selbst === false) {
+                                    moeglich_l.push(diagonalen_2[i][i3]);
+                                }
+                            }
+                            else {
+                                if (schlagen === true) {
+                                    moeglich_l.push(diagonalen_2[i][i3]);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return moeglich_l;
+}
+
+function gedrueckt (feld) {
+    if (ausgewaehlt === "") {
+        for (i=0; i < figuren.length; i++) {
+            if (figuren[i].feld == feld.id) {
+                if (figuren[i].farbe == "weiß" && amZug == 1 || figuren[i].farbe == "schwarz" && amZug == 2) {
+                    ausgewaehlt = figuren[i];
+                    moeglich = felder_moeglich();
+                    feld.style.backgroundColor = "yellow";
+
+                    for (i2 = 0; i2 < moeglich.length; i2++) {
+                        if (moeglich[i2] != null) {
+                            document.getElementById(moeglich[i2]).style.backgroundColor = "blue";
+                        }
+                        else {
+                            moeglich.splice(i2, 1);
+                            i2--;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        for (i=0; i < figuren.length; i++) {
+            if (figuren[i].feld == feld.id) {
+                if (figuren[i] == ausgewaehlt) {
+                    ausgewaehlt = "";
+                    
+                    if (feld.classList.contains("weiß")) {
+                        feld.style.backgroundColor = "white";
+                    }
+                    else {
+                        feld.style.backgroundColor = "green";
+                    }
+
+                    for (i2 = 0; i2 < document.getElementsByClassName("feld").length; i2++) {
+                        if (document.getElementsByClassName("feld")[i2].style.backgroundColor = "blue") {
+                            if (document.getElementsByClassName("feld")[i2].classList.contains("weiß")) {
+                                document.getElementsByClassName("feld")[i2].style.backgroundColor = "white";
+                            }
+                            else {
+                                document.getElementsByClassName("feld")[i2].style.backgroundColor = "green";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (ausgewaehlt != "") {
+            if (moeglich.includes(feld.id)) {
+                document.getElementById(ausgewaehlt.feld).children[0].src = "";
+                document.getElementById(ausgewaehlt.feld).children[0].style.marginLeft = "0px";
+
+                if (document.getElementById(ausgewaehlt.feld).classList.contains("weiß")) {
+                    document.getElementById(ausgewaehlt.feld).style.backgroundColor = "white";
+                }
+                else {
+                    document.getElementById(ausgewaehlt.feld).style.backgroundColor = "green";
+                }
+
+                for (i=0; i < figuren.length; i++) {
+                    if (figuren[i].feld == feld.id) {
+                        if (ausgewaehlt.farbe != figuren[i].farbe) {
+                            figuren.splice(i, 1);
+                        }
+                    }
+                }
+
+                ausgewaehlt.feld = feld.id;
+                feld.children[0].src = ausgewaehlt.bild;
+
+                for (i2 = 0; i2 < document.getElementsByClassName("feld").length; i2++) {
+                    if (document.getElementsByClassName("feld")[i2].style.backgroundColor = "blue") {
+                        if (document.getElementsByClassName("feld")[i2].classList.contains("weiß")) {
+                            document.getElementsByClassName("feld")[i2].style.backgroundColor = "white";
+                        }
+                        else {
+                            document.getElementsByClassName("feld")[i2].style.backgroundColor = "green";
+                        }
+                    }
+                }
+
+                if (ausgewaehlt.name == "bauer") {
+                    feld.children[0].style.marginLeft = "17px";
+                }
+                else if (ausgewaehlt.name == "turm") {
+                    feld.children[0].style.marginLeft = "13px";
+                }
+                else {
+                    feld.children[0].style.marginLeft = "0px";
+                }
+
+                if (amZug == 1) {
+                    amZug += 1;
+                }
+                else {
+                    amZug -= 1;
+                }
+
+                ausgewaehlt = "";
+            }
+        }
+    }
+}

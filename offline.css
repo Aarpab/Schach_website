@@ -1,0 +1,25 @@
+#menü {
+    height: 100%;
+    width: 10%;
+}
+
+#offline {
+    color: rgb(151, 27, 27);
+}
+
+#feld {
+    margin-left: 20%;
+}
+
+.feld {
+    width: 100px;
+    height: 100px;
+}
+
+.schwarz {
+    background-color: green;
+}
+
+.weiß {
+    background-color: white;
+}
