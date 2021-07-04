@@ -369,6 +369,128 @@ function felder_moeglich () {
         }
     }
 
+    else if (ausgewaehlt.name == "springer") {
+        for (i = 0; i < senkrechten.length; i++) {
+            if (senkrechten[i].includes(ausgewaehlt.feld)) {
+                for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                    if (senkrechten[i][i2] == ausgewaehlt.feld) {
+                        if (i < 7 && i2 < 6) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 1][i2 + 2] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i + 1][i2 + 2]);
+                            }
+                        }
+
+                        if (i < 6 && i2 < 7) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 2][i2 + 1] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i + 2][i2 + 1]);
+                            }
+                        }
+
+                        if (i < 6 && i2 > 0) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 2][i2 - 1] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i + 2][i2 - 1]);
+                            }
+                        }
+
+                        if (i < 7 && i2 > 1) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 1][i2 - 2] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i + 1][i2 - 2]);
+                            }
+                        }
+
+                        if (i > 0 && i2 > 1) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 1][i2 - 2] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i - 1][i2 - 2]);
+                            }
+                        }
+
+                        if (i > 1 && i2 > 0) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 2][i2 - 1] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i - 2][i2 - 1]);
+                            }
+                        }
+
+                        if (i > 1 && i2 < 7) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 2][i2 + 1] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i - 2][i2 + 1]);
+                            }
+                        }
+
+                        if (i > 0 && i2 < 6) {
+                            var frei = true;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 1][i2 + 2] && figuren[f].farbe == ausgewaehlt.farbe) {
+                                    frei = false;
+                                }
+                            }
+
+                            if (frei === true) {
+                                moeglich_l.push(senkrechten[i - 1][i2 + 2]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     return moeglich_l;
 }
 
