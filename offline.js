@@ -448,14 +448,20 @@ function felder_moeglich (fig) {
 
                             if (frei === true) {
                                 if (fig.feld[1] == "2") {
+                                    var frei2 = true;
+
                                     for (i3 = 0; i3 < figuren.length; i3++) {
                                         if (figuren[i3].feld == senkrechten[i][i2 + 2]) {
-                                            frei = false;
+                                            frei2 = false;
                                         }
                                     }
 
                                     if (frei === true) {
-                                        moeglich_l.push(senkrechten[i][i2 + 1], senkrechten[i][i2 + 2]);
+                                        moeglich_l.push(senkrechten[i][i2 + 1]);
+                                    }
+
+                                    if (frei2 === true) {
+                                        moeglich_l.push(senkrechten[i][i2 + 2]);
                                     }
                                 }
                                 else {
@@ -660,6 +666,160 @@ function felder_moeglich (fig) {
 
         for (i = 0; i < moeglich_turm.length; i++) {
             moeglich_l.push(moeglich_turm[i]);
+        }
+    }
+
+    else if (fig.name == "könig") {
+        for (i = 0; i < senkrechten.length; i++) {
+            if (senkrechten[i].includes(fig.feld)) {
+                for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                    if (senkrechten[i][i2] == fig.feld) {
+                        if (i2 < 7) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i][i2 + 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i][i2 + 1]);
+                            }
+                        }
+
+                        if (i < 7 && i2 < 7) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 1][i2 + 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i + 1][i2 + 1]);
+                            }
+                        }
+
+                        if (i < 7) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 1][i2]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+                            
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i + 1][i2]);
+                            }
+                        }
+
+                        if (i < 7 && i2 > 0) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i + 1][i2 - 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i + 1][i2 - 1]);
+                            }
+                        }
+
+                        if (i2 > 0) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i][i2 - 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i][i2 - 1]);
+                            }
+                        }
+
+                        if (i > 0 && i2 > 0) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 1][i2 - 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i - 1][i2 - 1]);
+                            }
+                        }
+
+                        if (i > 0) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 1][i2]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i - 1][i2]);
+                            }
+                        }
+
+                        if (i > 0 && i2 < 7) {
+                            var frei = true, schlagen = false;
+
+                            for (f = 0; f < figuren.length; f++) {
+                                if (figuren[f].feld == senkrechten[i - 1][i2 + 1]) {
+                                    frei = false;
+
+                                    if (figuren[f].farbe != fig.farbe) {
+                                        schlagen = true;
+                                    }
+                                }
+                            }
+
+                            if (frei === true || schlagen === true) {
+                                moeglich_l.push(senkrechten[i - 1][i2 + 1]);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
