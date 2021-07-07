@@ -833,6 +833,24 @@ function gedrueckt (feld) {
                 if (figuren[i].farbe == "weiß" && amZug == 1 || figuren[i].farbe == "schwarz" && amZug == 2) {
                     ausgewaehlt = figuren[i];
                     moeglich = felder_moeglich(ausgewaehlt);
+
+                    if (ausgewaehlt.name == "könig") {
+                        for (f = 0; f < figuren.length; f++) {
+                            if (figuren[f].farbe != ausgewaehlt.farbe) {
+                                var moeglich_figur = felder_moeglich(figuren[f]);
+
+                                for (m = 0; m < moeglich_figur.length; m++) {
+                                    for (m2 = 0; m2 < moeglich.length; m2++) {
+                                        if (moeglich_figur.includes(moeglich[m2])) {
+                                            moeglich.splice(m2, 1);
+                                            m2--;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     feld.style.backgroundColor = "yellow";
 
                     for (i2 = 0; i2 < moeglich.length; i2++) {
