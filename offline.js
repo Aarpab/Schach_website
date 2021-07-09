@@ -53,7 +53,7 @@ for (i=0; i < figuren.length; i++) {
     }
 }
 
-var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, schach_figur = null;
+var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, schach_figur = null, figur_bedroht = null;
 
 var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
 
@@ -866,18 +866,50 @@ function felder_moeglich (fig, bedroht=false) {
     return moeglich_l;
 }
 
+function felder_moeglich_schach (fig) {
+    var moeglich_l = [schach_figur.feld];
+
+    return moeglich_l;
+}
+
 function gedrueckt (feld) {
     if (ausgewaehlt === "") {
         for (i=0; i < figuren.length; i++) {
             if (figuren[i].feld == feld.id) {
                 if (figuren[i].farbe == "weiß" && amZug == 1 || figuren[i].farbe == "schwarz" && amZug == 2) {
                     ausgewaehlt = figuren[i];
+
+                    for (x = 0; x < figuren.length; x++) {
+                        if (figuren[x].name == "könig") {
+                            for (f2 = 0; f2 < figuren.length; f2++) {
+                                if (figuren[f2].farbe != figuren[x].farbe) {
+                                    if (felder_moeglich(figuren[f2]).includes(figuren[x].feld)) {
+                                        schach = true;
+                                        schach_figur = figuren[f2];
+                                        figur_bedroht = figuren[x];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                        
                     moeglich = felder_moeglich(ausgewaehlt);
 
+                    if (schach === true && ausgewaehlt.name != "könig") {
+                        var moeglich_schach = felder_moeglich_schach(ausgewaehlt);
+
+                        for (x = 0; x < moeglich.length; x++) {
+                            if (!moeglich_schach.includes(moeglich[x])) {
+                                moeglich.splice(x, 1);
+                                x--;
+                            }
+                        }
+                    }
+
                     if (ausgewaehlt.name == "könig") {
-                        for (f = 0; f < figuren.length; f++) {
-                            if (figuren[f].farbe != ausgewaehlt.farbe) {
-                                var moeglich_figur = felder_moeglich(figuren[f], true);
+                        for (x = 0; x < figuren.length; x++) {
+                            if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                var moeglich_figur = felder_moeglich(figuren[x], true);
 
                                 for (m = 0; m < moeglich_figur.length; m++) {
                                     for (m2 = 0; m2 < moeglich.length; m2++) {
@@ -900,19 +932,6 @@ function gedrueckt (feld) {
                         else {
                             moeglich.splice(i2, 1);
                             i2--;
-                        }
-                    }
-
-                    for (f = 0; f < figuren.length; f++) {
-                        if (figuren[f].feld.name == "könig") {
-                            for (f2 = 0; f2 < figuren.length; f2++) {
-                                if (figuren[f2].farbe != figuren[f].farbe) {
-                                    if (felder_moeglich(figuren[f2]).includes(figuren[f].feld)) {
-                                        schach = true;
-                                        schach_figur = figuren[f2];
-                                    }
-                                }
-                            }
                         }
                     }
 
@@ -999,6 +1018,7 @@ function gedrueckt (feld) {
                     amZug -= 1;
                 }
 
+                schach = false;
                 ausgewaehlt = "";
             }
         }
