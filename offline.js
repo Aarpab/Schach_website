@@ -866,8 +866,155 @@ function felder_moeglich (fig, bedroht=false) {
     return moeglich_l;
 }
 
-function felder_moeglich_schach (fig) {
-    var moeglich_l = [schach_figur.feld];
+function felder_moeglich_schach () {
+    var moeglich_l = [schach_figur.feld], pos_x = null, pos_y = null;
+
+    if (schach_figur.name == "läufer" || schach_figur.name == "dame") {
+        for (s = 0; s < senkrechten.length; s++) {
+            if (senkrechten[s].includes(schach_figur.feld)) {
+                for (s2 = 0; s2 < senkrechten.length; s2++) {
+                    if (senkrechten[s2].includes(figur_bedroht.feld)) {
+                        if (s < s2) {
+                            pos_x = "rechts";
+                        }
+
+                        else if (s > s2) {
+                            pos_x = "links";
+                        }
+                    }
+                }
+            }
+        }
+
+        for (w = 0; w < waagerechten.length; w++) {
+            if (waagerechten[w].includes(schach_figur.feld)) {
+                for (w2 = 0; w2 < waagerechten.length; w2++) {
+                    if (waagerechten[w2].includes(figur_bedroht.feld)) {
+                        if (w < w2) {
+                            pos_y = "oben";
+                        }
+
+                        else if (w > w2) {
+                            pos_y = "unten";
+                        }
+                    }
+                }
+            }
+        }
+
+        if (pos_x == "rechts") {
+            if (pos_y == "oben") {
+                var s2 = 0, w2 = 0;
+
+                for (s = 0; s < senkrechten.length; s++) {
+                    if (senkrechten[s].includes(schach_figur.feld)) {
+                        s2 = s;
+                    }
+                }
+
+                for (w = 0; w < senkrechten[s2].length; w++) {
+                    if (senkrechten[s2][w] == schach_figur.feld) {
+                        w2 = w;
+                    }
+                }
+
+                while (true) {
+                    if (figur_bedroht.feld == senkrechten[s2][w2]) {
+                        break;
+                    }
+                    else {
+                        moeglich_l.push(senkrechten[s2][w2]);
+                    }
+
+                    s2++;
+                    w2++;
+                }
+            }
+            else {
+                var s2 = 0, w2 = 0;
+
+                for (s = 0; s < senkrechten.length; s++) {
+                    if (senkrechten[s].includes(schach_figur.feld)) {
+                        s2 = s;
+                    }
+                }
+
+                for (w = 0; w < senkrechten[s2].length; w++) {
+                    if (senkrechten[s2][w] == schach_figur.feld) {
+                        w2 = w;
+                    }
+                }
+
+                while (true) {
+                    if (figur_bedroht.feld == senkrechten[s2][w2]) {
+                        break;
+                    }
+                    else {
+                        moeglich_l.push(senkrechten[s2][w2]);
+                    }
+
+                    s2++;
+                    w2--;
+                }
+            }
+        }
+        else {
+            if (pos_y == "oben") {
+                var s2 = 0, w2 = 0;
+
+                for (s = 0; s < senkrechten.length; s++) {
+                    if (senkrechten[s].includes(schach_figur.feld)) {
+                        s2 = s;
+                    }
+                }
+
+                for (w = 0; w < senkrechten[s2].length; w++) {
+                    if (senkrechten[s2][w] == schach_figur.feld) {
+                        w2 = w;
+                    }
+                }
+
+                while (true) {
+                    if (figur_bedroht.feld == senkrechten[s2][w2]) {
+                        break;
+                    }
+                    else {
+                        moeglich_l.push(senkrechten[s2][w2]);
+                    }
+
+                    s2--;
+                    w2++;
+                }
+            }
+            else {
+                var s2 = 0, w2 = 0;
+
+                for (s = 0; s < senkrechten.length; s++) {
+                    if (senkrechten[s].includes(schach_figur.feld)) {
+                        s2 = s;
+                    }
+                }
+
+                for (w = 0; w < senkrechten[s2].length; w++) {
+                    if (senkrechten[s2][w] == schach_figur.feld) {
+                        w2 = w;
+                    }
+                }
+
+                while (true) {
+                    if (figur_bedroht.feld == senkrechten[s2][w2]) {
+                        break;
+                    }
+                    else {
+                        moeglich_l.push(senkrechten[s2][w2]);
+                    }
+
+                    s2--;
+                    w2--;
+                }
+            }
+        }
+    }
 
     return moeglich_l;
 }
@@ -896,7 +1043,7 @@ function gedrueckt (feld) {
                     moeglich = felder_moeglich(ausgewaehlt);
 
                     if (schach === true && ausgewaehlt.name != "könig") {
-                        var moeglich_schach = felder_moeglich_schach(ausgewaehlt);
+                        var moeglich_schach = felder_moeglich_schach();
 
                         for (x = 0; x < moeglich.length; x++) {
                             if (!moeglich_schach.includes(moeglich[x])) {
