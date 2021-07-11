@@ -53,7 +53,7 @@ for (i=0; i < figuren.length; i++) {
     }
 }
 
-var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, schach_figur = null, figur_bedroht = null;
+var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null;
 
 var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
 
@@ -469,6 +469,18 @@ function felder_moeglich (fig, bedroht=false) {
                                         moeglich_l.push(senkrechten[i][i2 + 1]);
                                     }
                                 }
+
+                                if (i < 7 && i2 < 7) {
+                                    if (en_passant_feld == senkrechten[i + 1][i2 + 1]) {
+                                        moeglich_l.push(en_passant_feld);
+                                    }
+                                }
+
+                                if (i > 0 && i2 < 7) {
+                                    if (en_passant_feld == senkrechten[i - 1][i2 + 1]) {
+                                        moeglich_l.push(en_passant_feld);
+                                    }
+                                }
                             }
                         }
 
@@ -531,6 +543,18 @@ function felder_moeglich (fig, bedroht=false) {
                                     }
                                     else {
                                         moeglich_l.push(senkrechten[i][i2 - 1]);
+                                    }
+                                }
+
+                                if (i < 7 && i2 > 0) {
+                                    if (en_passant_feld == senkrechten[i + 1][i2 - 1]) {
+                                        moeglich_l.push(en_passant_feld);
+                                    }
+                                }
+
+                                if (i > 0 && i2 > 0) {
+                                    if (en_passant_feld == senkrechten[i - 1][i2 - 1]) {
+                                        moeglich_l.push(en_passant_feld);
                                     }
                                 }
                             }
@@ -1017,6 +1041,9 @@ function felder_moeglich_schach () {
             }
         }
     }
+    
+    pos_x = null;
+    pos_y = null;
 
     if (schach_figur.name == "turm" || schach_figur.name == "dame") {
         for (s = 0; s < senkrechten.length; s++) {
@@ -1035,25 +1062,23 @@ function felder_moeglich_schach () {
             }
         }
 
-        if (pos_x == null) {
-            for (w = 0; w < waagerechten.length; w++) {
-                if (waagerechten[w].includes(schach_figur.feld)) {
-                    for (w2 = 0; w2 < waagerechten.length; w2++) {
-                        if (waagerechten[w2].includes(figur_bedroht.feld)) {
-                            if (w < w2) {
-                                pos_y = "oben";
-                            }
+        for (w = 0; w < waagerechten.length; w++) {
+            if (waagerechten[w].includes(schach_figur.feld)) {
+                for (w2 = 0; w2 < waagerechten.length; w2++) {
+                    if (waagerechten[w2].includes(figur_bedroht.feld)) {
+                        if (w < w2) {
+                            pos_y = "oben";
+                        }
 
-                            else if (w > w2) {
-                                pos_y = "unten";
-                            }
+                        else if (w > w2) {
+                            pos_y = "unten";
                         }
                     }
                 }
             }
         }
 
-        if (pos_x == "rechts") {
+        if (pos_x == "rechts" && pos_y == null) {
             var s2 = 0, w2 = 0;
 
             for (s = 0; s < senkrechten.length; s++) {
@@ -1079,7 +1104,7 @@ function felder_moeglich_schach () {
                 s2++;
             }
         }
-        else if (pos_x == "links") {
+        else if (pos_x == "links" && pos_y == null) {
             var s2 = 0, w2 = 0;
 
             for (s = 0; s < senkrechten.length; s++) {
@@ -1105,7 +1130,7 @@ function felder_moeglich_schach () {
                 s2--;
             }
         }
-        else if (pos_y == "oben") {
+        else if (pos_y == "oben" && pos_x == null) {
             var s2 = 0, w2 = 0;
 
             for (s = 0; s < senkrechten.length; s++) {
@@ -1131,7 +1156,7 @@ function felder_moeglich_schach () {
                 w2++;
             }
         }
-        else if (pos_y == "unten") {
+        else if (pos_y == "unten" && pos_x == null) {
             var s2 = 0, w2 = 0;
 
             for (s = 0; s < senkrechten.length; s++) {
@@ -1231,7 +1256,7 @@ function gedrueckt (feld) {
         }
     }
     else {
-        for (i=0; i < figuren.length; i++) {
+        for (i = 0; i < figuren.length; i++) {
             if (figuren[i].feld == feld.id) {
                 if (figuren[i] == ausgewaehlt) {
                     ausgewaehlt = "";
@@ -1269,12 +1294,54 @@ function gedrueckt (feld) {
                     document.getElementById(ausgewaehlt.feld).style.backgroundColor = "green";
                 }
 
-                for (i=0; i < figuren.length; i++) {
+                for (i = 0; i < figuren.length; i++) {
                     if (figuren[i].feld == feld.id) {
                         if (ausgewaehlt.farbe != figuren[i].farbe) {
                             figuren.splice(i, 1);
                         }
                     }
+                }
+
+                if (feld.id == en_passant_feld) {
+                    for (i = 0; i < figuren.length; i++) {
+                        if (figuren[i] == en_passant_figur) {
+                            document.getElementById(figuren[i].feld).children[0].src = "";
+                            figuren.splice(i, 1);
+                        }
+                    }
+                }
+
+                if (ausgewaehlt.name == "bauer") {
+                    for (i = 0; i < senkrechten.length; i++) {
+                        if (senkrechten[i].includes(ausgewaehlt.feld)) {
+                            for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                                if (senkrechten[i][i2] == ausgewaehlt.feld) {
+                                    for (i3 = 0; i3 < senkrechten[i].length; i3++) {
+                                        if (senkrechten[i][i3] == feld.id) {
+                                            if (i3 - i2 == 2 && ausgewaehlt.farbe == "weiß") {
+                                                en_passant_feld = senkrechten[i][i2 + 1];
+                                                en_passant_figur = ausgewaehlt;
+                                            }
+
+                                            else if (i2 - i3 == 2 && ausgewaehlt.farbe == "schwarz") {
+                                                en_passant_feld = senkrechten[i][i3 + 1];
+                                                en_passant_figur = ausgewaehlt;
+                                            }
+
+                                            else {
+                                                en_passant_feld = null;
+                                                en_passant_figur = null;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    en_passant_feld = null;
+                    en_passant_figur = null;
                 }
 
                 ausgewaehlt.feld = feld.id;
