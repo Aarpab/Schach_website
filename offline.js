@@ -53,7 +53,7 @@ for (i=0; i < figuren.length; i++) {
     }
 }
 
-var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, rochade_weiß_rechts = true, rochade_weiß_links = true, rochade_schwarz_rechts = true, rochade_schwarz_links = true, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null;
+var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, rochade_weiß_rechts = true, rochade_weiß_links = true, rochade_schwarz_rechts = true, rochade_schwarz_links = true, verwandeln = false, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null, verwandeln_figur = null;
 
 var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
 
@@ -1248,156 +1248,360 @@ function felder_moeglich_schach () {
     return moeglich_l;
 }
 
-function gedrueckt (feld) {
-    if (ausgewaehlt === "") {
-        for (i=0; i < figuren.length; i++) {
-            if (figuren[i].feld == feld.id) {
-                if (figuren[i].farbe == "weiß" && amZug == 1 || figuren[i].farbe == "schwarz" && amZug == 2) {
-                    ausgewaehlt = figuren[i];
+function funk_verwandeln (button) {
+    if (verwandeln === true) {
+        if (button.id == "feld_dame") {
+            verwandeln_figur.name = "dame";
+            verwandeln_figur.nummer = 0;
+            
+            if (verwandeln_figur.farbe == "weiß") {
+                verwandeln_figur.bild = "Bilder/dame_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/dame_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+            else {
+                verwandeln_figur.bild = "Bilder/dame_schwarz.png"
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/dame_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+        }
+        else if (button.id == "feld_turm") {
+            verwandeln_figur.name = "turm";
+            verwandeln_figur.nummer = 0;
 
-                    for (x = 0; x < figuren.length; x++) {
-                        if (figuren[x].name == "könig") {
-                            for (f2 = 0; f2 < figuren.length; f2++) {
-                                if (figuren[f2].farbe != figuren[x].farbe) {
-                                    if (felder_moeglich(figuren[f2]).includes(figuren[x].feld)) {
-                                        schach = true;
-                                        schach_figur = figuren[f2];
-                                        figur_bedroht = figuren[x];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                        
-                    moeglich = felder_moeglich(ausgewaehlt);
+            if (verwandeln_figur.farbe == "weiß") {
+                verwandeln_figur.bild = "Bilder/turm_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/turm_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+            else {
+                verwandeln_figur.bild = "Bilder/turm_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/turm_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
 
-                    if (schach === true && ausgewaehlt.name != "könig") {
-                        var moeglich_schach = felder_moeglich_schach();
+            document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "13px";
+        }
+        else if (button.id == "feld_springer") {
+            verwandeln_figur.name = "springer";
+            verwandeln_figur.nummer = 0;
 
-                        for (x = 0; x < moeglich.length; x++) {
-                            if (!moeglich_schach.includes(moeglich[x])) {
-                                moeglich.splice(x, 1);
-                                x--;
-                            }
-                        }
-                    }
+            if (verwandeln_figur.farbe == "weiß") {
+                verwandeln_figur.bild = "Bilder/springer_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/springer_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+            else {
+                verwandeln_figur.bild = "Bilder/turm_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/springer_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+        }
+        else if (button.id == "feld_läufer") {
+            verwandeln_figur.name = "laeufer";
+            verwandeln_figur.nummer = 0;
 
-                    if (ausgewaehlt.name == "könig") {
-                        for (x = 0; x < figuren.length; x++) {
-                            if (figuren[x].farbe != ausgewaehlt.farbe) {
-                                var moeglich_figur = felder_moeglich(figuren[x], true);
-
-                                for (m = 0; m < moeglich_figur.length; m++) {
-                                    for (m2 = 0; m2 < moeglich.length; m2++) {
-                                        if (moeglich_figur.includes(moeglich[m2])) {
-                                            moeglich.splice(m2, 1);
-                                            m2--;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (ausgewaehlt.name == "könig") {
-                        if (rochade_weiß_rechts === true) {
-                            for (x = 0; x < figuren.length; x++) {
-                                if (figuren[x].farbe != ausgewaehlt.farbe) {
-                                    var moeglich_figur = felder_moeglich(figuren[x], true);
-    
-                                    if (moeglich_figur.includes("f1") || moeglich_figur.includes("g1")) {
-                                        for (y = 0; y < moeglich.length; y++) {
-                                            if (moeglich[y] == "g1") {
-                                                moeglich.splice(y, 1);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-    
-                        if (rochade_weiß_links === true) {
-                            for (x = 0; x < figuren.length; x++) {
-                                if (figuren[x].farbe != ausgewaehlt.farbe) {
-                                    var moeglich_figur = felder_moeglich(figuren[x], true);
-
-                                    if (moeglich_figur.includes("b1") || moeglich_figur.includes("c1") || moeglich_figur.includes("d1")) {
-                                        for (y = 0; y < moeglich.length; y++) {
-                                            if (moeglich[y] == "c1") {
-                                                moeglich.splice(y, 1);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-    
-                        if (rochade_schwarz_rechts === true) {
-                            for (x = 0; x < figuren.length; x++) {
-                                if (figuren[x].farbe != ausgewaehlt.farbe) {
-                                    var moeglich_figur = felder_moeglich(figuren[x], true);
-
-                                    if (moeglich_figur.includes("f8") || moeglich_figur.includes("g8")) {
-                                        for (y = 0; y < moeglich.length; y++) {
-                                            if (moeglich[y] == "g8") {
-                                                moeglich.splice(y, 1);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-    
-                        if (rochade_schwarz_links === true) {
-                            for (x = 0; x < figuren.length; x++) {
-                                if (figuren[x].farbe != ausgewaehlt.farbe) {
-                                    var moeglich_figur = felder_moeglich(figuren[x], true);
-    
-                                    if (moeglich_figur.includes("b8") || moeglich_figur.includes("c8") || moeglich_figur.includes("d8")) {
-                                        for (y = 0; y < moeglich.length; y++) {
-                                            if (moeglich[y] == "c8") {
-                                                moeglich.splice(y, 1);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    feld.style.backgroundColor = "yellow";
-
-                    for (i2 = 0; i2 < moeglich.length; i2++) {
-                        if (moeglich[i2] != null) {
-                            document.getElementById(moeglich[i2]).style.backgroundColor = "blue";
-                        }
-                        else {
-                            moeglich.splice(i2, 1);
-                            i2--;
-                        }
-                    }
-
-                    break;
-                }
+            if (verwandeln_figur.farbe == "weiß") {
+                verwandeln_figur.bild = "Bilder/laeufer_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/laeufer_weiss.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
+            }
+            else {
+                verwandeln_figur.bild = "Bilder/laeufer_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].src = "Bilder/laeufer_schwarz.png";
+                document.getElementById(verwandeln_figur.feld).children[0].style.marginLeft = "0px";
             }
         }
     }
-    else {
-        for (i = 0; i < figuren.length; i++) {
-            if (figuren[i].feld == feld.id) {
-                if (figuren[i] == ausgewaehlt) {
-                    ausgewaehlt = "";
-                    
-                    if (feld.classList.contains("weiß")) {
-                        feld.style.backgroundColor = "white";
+
+    document.getElementById("feld_dame").children[0].src = "";
+    document.getElementById("feld_turm").children[0].src = "";
+    document.getElementById("feld_springer").children[0].src = "";
+    document.getElementById("feld_läufer").children[0].src = "";
+
+    verwandeln = false;
+}
+
+function gedrueckt (feld) {
+    if (verwandeln === false) {
+        if (ausgewaehlt === "") {
+            for (i=0; i < figuren.length; i++) {
+                if (figuren[i].feld == feld.id) {
+                    if (figuren[i].farbe == "weiß" && amZug == 1 || figuren[i].farbe == "schwarz" && amZug == 2) {
+                        ausgewaehlt = figuren[i];
+
+                        for (x = 0; x < figuren.length; x++) {
+                            if (figuren[x].name == "könig") {
+                                for (f2 = 0; f2 < figuren.length; f2++) {
+                                    if (figuren[f2].farbe != figuren[x].farbe) {
+                                        if (felder_moeglich(figuren[f2]).includes(figuren[x].feld)) {
+                                            schach = true;
+                                            schach_figur = figuren[f2];
+                                            figur_bedroht = figuren[x];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                            
+                        moeglich = felder_moeglich(ausgewaehlt);
+
+                        if (schach === true && ausgewaehlt.name != "könig") {
+                            var moeglich_schach = felder_moeglich_schach();
+
+                            for (x = 0; x < moeglich.length; x++) {
+                                if (!moeglich_schach.includes(moeglich[x])) {
+                                    moeglich.splice(x, 1);
+                                    x--;
+                                }
+                            }
+                        }
+
+                        if (ausgewaehlt.name == "könig") {
+                            for (x = 0; x < figuren.length; x++) {
+                                if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                    var moeglich_figur = felder_moeglich(figuren[x], true);
+
+                                    for (m = 0; m < moeglich_figur.length; m++) {
+                                        for (m2 = 0; m2 < moeglich.length; m2++) {
+                                            if (moeglich_figur.includes(moeglich[m2])) {
+                                                moeglich.splice(m2, 1);
+                                                m2--;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (ausgewaehlt.name == "könig") {
+                            if (rochade_weiß_rechts === true) {
+                                for (x = 0; x < figuren.length; x++) {
+                                    if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                        var moeglich_figur = felder_moeglich(figuren[x], true);
+        
+                                        if (moeglich_figur.includes("f1") || moeglich_figur.includes("g1")) {
+                                            for (y = 0; y < moeglich.length; y++) {
+                                                if (moeglich[y] == "g1") {
+                                                    moeglich.splice(y, 1);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        
+                            if (rochade_weiß_links === true) {
+                                for (x = 0; x < figuren.length; x++) {
+                                    if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                        var moeglich_figur = felder_moeglich(figuren[x], true);
+
+                                        if (moeglich_figur.includes("b1") || moeglich_figur.includes("c1") || moeglich_figur.includes("d1")) {
+                                            for (y = 0; y < moeglich.length; y++) {
+                                                if (moeglich[y] == "c1") {
+                                                    moeglich.splice(y, 1);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        
+                            if (rochade_schwarz_rechts === true) {
+                                for (x = 0; x < figuren.length; x++) {
+                                    if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                        var moeglich_figur = felder_moeglich(figuren[x], true);
+
+                                        if (moeglich_figur.includes("f8") || moeglich_figur.includes("g8")) {
+                                            for (y = 0; y < moeglich.length; y++) {
+                                                if (moeglich[y] == "g8") {
+                                                    moeglich.splice(y, 1);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        
+                            if (rochade_schwarz_links === true) {
+                                for (x = 0; x < figuren.length; x++) {
+                                    if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                        var moeglich_figur = felder_moeglich(figuren[x], true);
+        
+                                        if (moeglich_figur.includes("b8") || moeglich_figur.includes("c8") || moeglich_figur.includes("d8")) {
+                                            for (y = 0; y < moeglich.length; y++) {
+                                                if (moeglich[y] == "c8") {
+                                                    moeglich.splice(y, 1);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        feld.style.backgroundColor = "yellow";
+
+                        for (i2 = 0; i2 < moeglich.length; i2++) {
+                            if (moeglich[i2] != null) {
+                                document.getElementById(moeglich[i2]).style.backgroundColor = "blue";
+                            }
+                            else {
+                                moeglich.splice(i2, 1);
+                                i2--;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            for (i = 0; i < figuren.length; i++) {
+                if (figuren[i].feld == feld.id) {
+                    if (figuren[i] == ausgewaehlt) {
+                        ausgewaehlt = "";
+                        
+                        if (feld.classList.contains("weiß")) {
+                            feld.style.backgroundColor = "white";
+                        }
+                        else {
+                            feld.style.backgroundColor = "green";
+                        }
+
+                        for (i2 = 0; i2 < document.getElementsByClassName("feld").length; i2++) {
+                            if (document.getElementsByClassName("feld")[i2].style.backgroundColor = "blue") {
+                                if (document.getElementsByClassName("feld")[i2].classList.contains("weiß")) {
+                                    document.getElementsByClassName("feld")[i2].style.backgroundColor = "white";
+                                }
+                                else {
+                                    document.getElementsByClassName("feld")[i2].style.backgroundColor = "green";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (ausgewaehlt != "") {
+                if (moeglich.includes(feld.id)) {
+                    document.getElementById(ausgewaehlt.feld).children[0].src = "";
+                    document.getElementById(ausgewaehlt.feld).children[0].style.marginLeft = "0px";
+
+                    if (document.getElementById(ausgewaehlt.feld).classList.contains("weiß")) {
+                        document.getElementById(ausgewaehlt.feld).style.backgroundColor = "white";
                     }
                     else {
-                        feld.style.backgroundColor = "green";
+                        document.getElementById(ausgewaehlt.feld).style.backgroundColor = "green";
                     }
+
+                    for (i = 0; i < figuren.length; i++) {
+                        if (figuren[i].feld == feld.id) {
+                            if (ausgewaehlt.farbe != figuren[i].farbe) {
+                                figuren.splice(i, 1);
+                            }
+                        }
+                    }
+
+                    if (feld.id == en_passant_feld) {
+                        for (i = 0; i < figuren.length; i++) {
+                            if (figuren[i] == en_passant_figur) {
+                                document.getElementById(figuren[i].feld).children[0].src = "";
+                                figuren.splice(i, 1);
+                            }
+                        }
+                    }
+
+                    if (ausgewaehlt.name == "bauer") {
+                        for (i = 0; i < senkrechten.length; i++) {
+                            if (senkrechten[i].includes(ausgewaehlt.feld)) {
+                                for (i2 = 0; i2 < senkrechten[i].length; i2++) {
+                                    if (senkrechten[i][i2] == ausgewaehlt.feld) {
+                                        for (i3 = 0; i3 < senkrechten[i].length; i3++) {
+                                            if (senkrechten[i][i3] == feld.id) {
+                                                if (i3 - i2 == 2 && ausgewaehlt.farbe == "weiß") {
+                                                    en_passant_feld = senkrechten[i][i2 + 1];
+                                                    en_passant_figur = ausgewaehlt;
+                                                }
+
+                                                else if (i2 - i3 == 2 && ausgewaehlt.farbe == "schwarz") {
+                                                    en_passant_feld = senkrechten[i][i3 + 1];
+                                                    en_passant_figur = ausgewaehlt;
+                                                }
+
+                                                else {
+                                                    en_passant_feld = null;
+                                                    en_passant_figur = null;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        en_passant_feld = null;
+                        en_passant_figur = null;
+                    }
+
+                    if (ausgewaehlt.name == "könig") {
+                        if (ausgewaehlt.farbe == "weiß") {
+                            rochade_weiß_rechts = false;
+                            rochade_weiß_links = false;
+                        }
+                        else {
+                            rochade_schwarz_rechts = false;
+                            rochade_schwarz_links = false;
+                        }
+                    }
+                    else if (ausgewaehlt.name == "turm") {
+                        if (ausgewaehlt.farbe == "weiß") {
+                            if (ausgewaehlt.nummer == 1) {
+                                rochade_weiß_links = false;
+                            }
+                            else {
+                                rochade_weiß_rechts = false;
+                            }
+                        }
+                        else {
+                            if (ausgewaehlt.nummer == 1) {
+                                rochade_schwarz_links = false;
+                            }
+                            else {
+                                rochade_schwarz_rechts = false;
+                            }
+                        }
+                    }
+
+                    if (ausgewaehlt.name == "bauer") {
+                        if (ausgewaehlt.farbe == "weiß" && feld.id[1] == "8") {
+                            verwandeln = true;
+                            verwandeln_figur = ausgewaehlt;
+
+                            document.getElementById("feld_dame").children[0].src = "Bilder/dame_weiss.png";
+                            document.getElementById("feld_turm").children[0].src = "Bilder/turm_weiss.png";
+                            document.getElementById("feld_springer").children[0].src = "Bilder/springer_weiss.png";
+                            document.getElementById("feld_läufer").children[0].src = "Bilder/laeufer_weiss.png";
+                        }
+                        else if (ausgewaehlt.farbe == "schwarz" && feld.id[1] == "1") {
+                            verwandeln = true;
+                            verwandeln_figur = ausgewaehlt;
+
+                            document.getElementById("feld_dame").children[0].src = "Bilder/dame_schwarz.png";
+                            document.getElementById("feld_turm").children[0].src = "Bilder/turm_schwarz.png";
+                            document.getElementById("feld_springer").children[0].src = "Bilder/springer_schwarz.png";
+                            document.getElementById("feld_läufer").children[0].src = "Bilder/laeufer_schwarz.png";
+                        }
+                    }
+
+                    ausgewaehlt.feld = feld.id;
+                    feld.children[0].src = ausgewaehlt.bild;
 
                     for (i2 = 0; i2 < document.getElementsByClassName("feld").length; i2++) {
                         if (document.getElementsByClassName("feld")[i2].style.backgroundColor = "blue") {
@@ -1409,134 +1613,27 @@ function gedrueckt (feld) {
                             }
                         }
                     }
-                }
-            }
-        }
 
-        if (ausgewaehlt != "") {
-            if (moeglich.includes(feld.id)) {
-                document.getElementById(ausgewaehlt.feld).children[0].src = "";
-                document.getElementById(ausgewaehlt.feld).children[0].style.marginLeft = "0px";
-
-                if (document.getElementById(ausgewaehlt.feld).classList.contains("weiß")) {
-                    document.getElementById(ausgewaehlt.feld).style.backgroundColor = "white";
-                }
-                else {
-                    document.getElementById(ausgewaehlt.feld).style.backgroundColor = "green";
-                }
-
-                for (i = 0; i < figuren.length; i++) {
-                    if (figuren[i].feld == feld.id) {
-                        if (ausgewaehlt.farbe != figuren[i].farbe) {
-                            figuren.splice(i, 1);
-                        }
+                    if (ausgewaehlt.name == "bauer") {
+                        feld.children[0].style.marginLeft = "17px";
                     }
-                }
-
-                if (feld.id == en_passant_feld) {
-                    for (i = 0; i < figuren.length; i++) {
-                        if (figuren[i] == en_passant_figur) {
-                            document.getElementById(figuren[i].feld).children[0].src = "";
-                            figuren.splice(i, 1);
-                        }
-                    }
-                }
-
-                if (ausgewaehlt.name == "bauer") {
-                    for (i = 0; i < senkrechten.length; i++) {
-                        if (senkrechten[i].includes(ausgewaehlt.feld)) {
-                            for (i2 = 0; i2 < senkrechten[i].length; i2++) {
-                                if (senkrechten[i][i2] == ausgewaehlt.feld) {
-                                    for (i3 = 0; i3 < senkrechten[i].length; i3++) {
-                                        if (senkrechten[i][i3] == feld.id) {
-                                            if (i3 - i2 == 2 && ausgewaehlt.farbe == "weiß") {
-                                                en_passant_feld = senkrechten[i][i2 + 1];
-                                                en_passant_figur = ausgewaehlt;
-                                            }
-
-                                            else if (i2 - i3 == 2 && ausgewaehlt.farbe == "schwarz") {
-                                                en_passant_feld = senkrechten[i][i3 + 1];
-                                                en_passant_figur = ausgewaehlt;
-                                            }
-
-                                            else {
-                                                en_passant_feld = null;
-                                                en_passant_figur = null;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    en_passant_feld = null;
-                    en_passant_figur = null;
-                }
-
-                if (ausgewaehlt.name == "könig") {
-                    if (ausgewaehlt.farbe == "weiß") {
-                        rochade_weiß_rechts = false;
-                        rochade_weiß_links = false;
+                    else if (ausgewaehlt.name == "turm") {
+                        feld.children[0].style.marginLeft = "13px";
                     }
                     else {
-                        rochade_schwarz_rechts = false;
-                        rochade_schwarz_links = false;
+                        feld.children[0].style.marginLeft = "0px";
                     }
-                }
-                else if (ausgewaehlt.name == "turm") {
-                    if (ausgewaehlt.farbe == "weiß") {
-                        if (ausgewaehlt.nummer == 1) {
-                            rochade_weiß_links = false;
-                        }
-                        else {
-                            rochade_weiß_rechts = false;
-                        }
+
+                    if (amZug == 1) {
+                        amZug += 1;
                     }
                     else {
-                        if (ausgewaehlt.nummer == 1) {
-                            rochade_schwarz_links = false;
-                        }
-                        else {
-                            rochade_schwarz_rechts = false;
-                        }
+                        amZug -= 1;
                     }
-                }
 
-                ausgewaehlt.feld = feld.id;
-                feld.children[0].src = ausgewaehlt.bild;
-
-                for (i2 = 0; i2 < document.getElementsByClassName("feld").length; i2++) {
-                    if (document.getElementsByClassName("feld")[i2].style.backgroundColor = "blue") {
-                        if (document.getElementsByClassName("feld")[i2].classList.contains("weiß")) {
-                            document.getElementsByClassName("feld")[i2].style.backgroundColor = "white";
-                        }
-                        else {
-                            document.getElementsByClassName("feld")[i2].style.backgroundColor = "green";
-                        }
-                    }
+                    schach = false;
+                    ausgewaehlt = "";
                 }
-
-                if (ausgewaehlt.name == "bauer") {
-                    feld.children[0].style.marginLeft = "17px";
-                }
-                else if (ausgewaehlt.name == "turm") {
-                    feld.children[0].style.marginLeft = "13px";
-                }
-                else {
-                    feld.children[0].style.marginLeft = "0px";
-                }
-
-                if (amZug == 1) {
-                    amZug += 1;
-                }
-                else {
-                    amZug -= 1;
-                }
-
-                schach = false;
-                ausgewaehlt = "";
             }
         }
     }
