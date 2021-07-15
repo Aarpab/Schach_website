@@ -53,7 +53,7 @@ for (i=0; i < figuren.length; i++) {
     }
 }
 
-var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null;
+var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, rochade_weiß_rechts = true, rochade_weiß_links = true, rochade_schwarz_rechts = true, rochade_schwarz_links = true, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null;
 
 var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
 
@@ -885,6 +885,67 @@ function felder_moeglich (fig, bedroht=false) {
                 }
             }
         }
+
+        if (schach === false) {
+            if (fig.farbe == "weiß") {
+                if (rochade_weiß_rechts === true) {
+                    var frei = true;
+
+                    for (f = 0; f < figuren.length; f++) {
+                        if (figuren[f].feld == "g1" || figuren[f].feld == "f1") {
+                            frei = false;
+                        }
+                    }
+
+                    if (frei) {
+                        moeglich_l.push("g1");
+                    }
+                }
+                
+                if (rochade_weiß_links === true) {
+                    var frei = true;
+
+                    for (f = 0; f < figuren.length; f++) {
+                        if (figuren[f].feld == "b1" || figuren[f].feld == "c1" || figuren[f].feld == "d1") {
+                            frei = false;
+                        }
+                    }
+
+                    if (frei) {
+                        moeglich_l.push("c1");
+                    }
+                }
+            }
+            else {
+                if (rochade_schwarz_rechts === true) {
+                    var frei = true;
+
+                    for (f = 0; f < figuren.length; f++) {
+                        if (figuren[f].feld == "g8" || figuren[f].feld == "f8") {
+                            frei = false;
+                        }
+                    }
+
+                    if (frei) {
+                        moeglich_l.push("g8");
+                    }
+                }
+
+                if (rochade_schwarz_links === true) {
+                    var frei = true;
+
+                    for (f = 0; f < figuren.length; f++) {
+                        if (figuren[f].feld == "b8" || figuren[f].feld == "c8" || figuren[f].feld == "d8") {
+                            frei = false;
+                        }
+                    }
+
+                    if (frei) {
+                        moeglich_l.push("c8");
+                    }
+                }
+            }
+        }
     }
 
     return moeglich_l;
@@ -1238,6 +1299,76 @@ function gedrueckt (feld) {
                         }
                     }
 
+                    if (ausgewaehlt.name == "könig") {
+                        if (rochade_weiß_rechts === true) {
+                            for (x = 0; x < figuren.length; x++) {
+                                if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                    var moeglich_figur = felder_moeglich(figuren[x], true);
+    
+                                    if (moeglich_figur.includes("f1") || moeglich_figur.includes("g1")) {
+                                        for (y = 0; y < moeglich.length; y++) {
+                                            if (moeglich[y] == "g1") {
+                                                moeglich.splice(y, 1);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        if (rochade_weiß_links === true) {
+                            for (x = 0; x < figuren.length; x++) {
+                                if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                    var moeglich_figur = felder_moeglich(figuren[x], true);
+
+                                    if (moeglich_figur.includes("b1") || moeglich_figur.includes("c1") || moeglich_figur.includes("d1")) {
+                                        for (y = 0; y < moeglich.length; y++) {
+                                            if (moeglich[y] == "c1") {
+                                                moeglich.splice(y, 1);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        if (rochade_schwarz_rechts === true) {
+                            for (x = 0; x < figuren.length; x++) {
+                                if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                    var moeglich_figur = felder_moeglich(figuren[x], true);
+
+                                    if (moeglich_figur.includes("f8") || moeglich_figur.includes("g8")) {
+                                        for (y = 0; y < moeglich.length; y++) {
+                                            if (moeglich[y] == "g8") {
+                                                moeglich.splice(y, 1);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        if (rochade_schwarz_links === true) {
+                            for (x = 0; x < figuren.length; x++) {
+                                if (figuren[x].farbe != ausgewaehlt.farbe) {
+                                    var moeglich_figur = felder_moeglich(figuren[x], true);
+    
+                                    if (moeglich_figur.includes("b8") || moeglich_figur.includes("c8") || moeglich_figur.includes("d8")) {
+                                        for (y = 0; y < moeglich.length; y++) {
+                                            if (moeglich[y] == "c8") {
+                                                moeglich.splice(y, 1);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     feld.style.backgroundColor = "yellow";
 
                     for (i2 = 0; i2 < moeglich.length; i2++) {
@@ -1342,6 +1473,35 @@ function gedrueckt (feld) {
                 else {
                     en_passant_feld = null;
                     en_passant_figur = null;
+                }
+
+                if (ausgewaehlt.name == "könig") {
+                    if (ausgewaehlt.farbe == "weiß") {
+                        rochade_weiß_rechts = false;
+                        rochade_weiß_links = false;
+                    }
+                    else {
+                        rochade_schwarz_rechts = false;
+                        rochade_schwarz_links = false;
+                    }
+                }
+                else if (ausgewaehlt.name == "turm") {
+                    if (ausgewaehlt.farbe == "weiß") {
+                        if (ausgewaehlt.nummer == 1) {
+                            rochade_weiß_links = false;
+                        }
+                        else {
+                            rochade_weiß_rechts = false;
+                        }
+                    }
+                    else {
+                        if (ausgewaehlt.nummer == 1) {
+                            rochade_schwarz_links = false;
+                        }
+                        else {
+                            rochade_schwarz_rechts = false;
+                        }
+                    }
                 }
 
                 ausgewaehlt.feld = feld.id;
