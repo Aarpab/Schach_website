@@ -53,7 +53,7 @@ for (i=0; i < figuren.length; i++) {
     }
 }
 
-var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, rochade_weiß_rechts = true, rochade_weiß_links = true, rochade_schwarz_rechts = true, rochade_schwarz_links = true, verwandeln = false, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null, verwandeln_figur = null;
+var ausgewaehlt = "", moeglich = [], amZug = 1, schach = false, rochade_weiß_rechts = true, rochade_weiß_links = true, rochade_schwarz_rechts = true, rochade_schwarz_links = true, verwandeln = false, matt = false, schach_figur = null, figur_bedroht = null, en_passant_feld = null, en_passant_figur = null, verwandeln_figur = null;
 
 var buchstaben = ["a", "b", "c", "d", "e", "f", "g", "h"], senkrechten = [], waagerechten = [], diagonalen_1 = [], diagonalen_2 = [];
 
