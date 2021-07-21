@@ -26,7 +26,7 @@
                         $sql -> bind_param("s", $_POST["name"]);
                         $sql -> execute();
 
-                        $sql -> bind_result($res_id, $res_name, $res_passwort);
+                        $sql -> bind_result($res_id, $res_name, $res_passwort, $res_suchend);
 
                         $richtig = false;
 
