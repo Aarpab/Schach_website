@@ -21,12 +21,12 @@
                         echo "<script>window.alert('Bei der Verbindung zum Server ist ein Fehler aufgetreten')</script>";
                     }
                     else {
-                        $sql = $conn -> prepare("SELECT * FROM User WHERE Name=?");
+                        $sql = $conn -> prepare("SELECT Passwort FROM User WHERE Name=?");
 
                         $sql -> bind_param("s", $_POST["name"]);
                         $sql -> execute();
 
-                        $sql -> bind_result($res_id, $res_name, $res_passwort, $res_finden);
+                        $sql -> bind_result($res_passwort);
 
                         $richtig = false;
 
@@ -53,7 +53,64 @@
                 header("Location: anmeldung.html");
             }
 
-            echo htmlspecialchars(stripslashes(trim($_POST["name"])));
+            $servername = "localhost";
+            $nutzername = "root";
+            $pw = "";
+            $dbname = "schach";
+
+            $conn = new mysqli($servername, $nutzername, $pw, $dbname);
+
+            if ($conn -> connect_error) {
+                echo "<script>window.alert('Bei der Verbindung zum Server ist ein Fehler aufgetreten')</script>";
+            }
+            else {
+                $sql = $conn -> prepare("SELECT spielend FROM User WHERE Name=?");
+
+                $sql -> bind_param("s", $_POST["name"]);
+                $sql -> execute();
+
+                $sql -> bind_result($res_spielend);
+
+                if ($sql -> fetch()) {
+                    if ($res_spielend === 0) {
+                        $sql -> close();
+
+                        $sql = $conn -> prepare("SELECT * FROM Spiele WHERE Spieler2 IS Null");
+
+                        $sql -> execute();
+
+                        $sql -> bind_result($res_id, $res_spieler1, $res_spieler2);
+
+                        if ($sql -> fetch()) {
+                            $id = $res_id;
+
+                            $sql -> close();
+
+                            $sql = $conn -> prepare("UPDATE Spiele SET Spieler2=? WHERE spiele.ID=?;");
+
+                            $sql -> bind_param("si", $_POST["name"], $id);
+                            $sql -> execute();
+
+                            $sql -> close();
+
+                            $sql = $conn -> prepare("UPDATE User SET spielend=true WHERE User.Name=?");
+
+                            $sql -> bind_param("s", $_POST["name"]);
+                            $sql -> execute();
+
+                            $sql -> close();
+                        }
+                        else {
+                            $sql -> close();
+
+                            $sql = $conn -> prepare("INSERT INTO Spiele (Spieler1) VALUES(?)");
+
+                            $sql -> bind_param("s", $_POST["name"]);
+                            $sql -> execute();
+                        }
+                    }
+                }
+            }
         ?>
 
         <div id="menü">

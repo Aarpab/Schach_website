@@ -21,12 +21,12 @@
                         echo "<script>window.alert('Bei der Verbindung zum Se4rver ist ein Fehler aufgetreten')</script>";
                     }
                     else {
-                        $sql = $conn -> prepare("SELECT * FROM User WHERE Name=?");
+                        $sql = $conn -> prepare("SELECT Passwort FROM User WHERE Name=?");
 
                         $sql -> bind_param("s", $_POST["name"]);
                         $sql -> execute();
 
-                        $sql -> bind_result($res_id, $res_name, $res_passwort, $res_suchend);
+                        $sql -> bind_result($res_passwort);
 
                         $richtig = false;
 
