@@ -83,6 +83,8 @@
 
                         if ($sql -> fetch()) {
                             $id = $res_id;
+                            $spieler1 = $res_spieler1;
+                            $spieler2 = $_POST["name"];
 
                             $sql -> close();
 
@@ -107,6 +109,36 @@
 
                             $sql -> bind_param("s", $_POST["name"]);
                             $sql -> execute();
+
+                            $sql -> close();
+
+                            while (true) {
+                                $sql = $conn -> prepare("SELECT Spieler1, Spieler2 FROM Spiele WHERE Spieler1=? AND NOT Spieler2 IS NULL");
+
+                                $sql -> bind_param("s", $_POST["name"]);
+                                $sql -> execute();
+
+                                $sql -> bind_result($res_spieler1, $res_spieler2);
+
+                                if ($sql -> fetch()) {
+                                    $spieler1 = $_POST["name"];
+                                    $spieler2 = $res_spieler2;
+
+                                    $sql -> close();
+                                    break;
+                                }
+
+                                $sql -> close();
+
+                                sleep(3);
+                            }
+
+                            $sql = $conn -> prepare("UPDATE User SET spielend=true WHERE User.Name=?");
+
+                            $sql -> bind_param("s", $_POST["name"]);
+                            $sql -> execute();
+
+                            $sql-> close();
                         }
                     }
                 }
@@ -117,6 +149,12 @@
             <a id="online" href="anmeldung.html">Online</a><br>
             <a id="offline" href="offline.html">Offline</a><br>
             <a href="löschen.php">Account löschen</a>
+        </div>
+
+        <div id="div1">
+            <?php
+                echo $spieler1 . " gegen " . $spieler2;
+            ?>
         </div>
     </body>
 </html>
