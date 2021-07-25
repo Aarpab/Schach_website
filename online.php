@@ -160,6 +160,296 @@
 
         <div id="div_feld">
             <form action="online.php" method="POST">
+                <table>
+                    <tr>
+                        <td id="a8" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b8" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c8" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d8" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e8" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f8" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g8" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h8" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a7" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b7" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c7" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d7" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e7" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f7" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g7" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h7" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a6" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b6" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c6" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d6" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e6" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f6" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g6" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h6" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a5" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b5" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c5" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d5" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e5" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f5" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g5" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h5" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="feld_dame" onclick="funk_verwandeln(this)">
+                            <img>
+                        </td>
+
+                        <td id="feld_turm" onclick="funk_verwandeln(this)">
+                            <img>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a4" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b4" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c4" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d4" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e4" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f4" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g4" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h4" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="feld_springer" onclick="funk_verwandeln(this)">
+                            <img>
+                        </td>
+
+                        <td id="feld_läufer" onclick="funk_verwandeln(this)">
+                            <img>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a3" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b3" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c3" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d3" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e3" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f3" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g3" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h3" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a2" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b2" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c2" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d2" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e2" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f2" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g2" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h2" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="a1" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="b1" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="c1" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="d1" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="e1" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="f1" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="g1" class="schwarz feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+
+                        <td id="h1" class="weiß feld" onclick="gedrueckt(this)">
+                            <img class="bild">
+                        </td>
+                    </tr>
+                </table>
+
                 <input type="hidden" name="name" value="<?php echo htmlspecialchars(stripslashes(trim($_POST["name"])));?>">
                 <input type="hidden" name="passwort" value="<?php echo htmlspecialchars(stripslashes(trim($_POST["passwort"])));?>">
                 <input type="hidden" name="spieler1_name" value="<?php echo $spieler1;?>">
