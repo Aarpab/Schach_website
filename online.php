@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <?php
+        <!--<?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (!empty($_POST["name"]) && !empty($_POST["passwort"])) {
                     $servername = "localhost";
@@ -85,6 +85,7 @@
                             $id = $res_id;
                             $spieler1 = $res_spieler1;
                             $spieler2 = $_POST["name"];
+                            $sqieler_nummer = 2;
 
                             $sql -> close();
 
@@ -123,6 +124,7 @@
                                 if ($sql -> fetch()) {
                                     $spieler1 = $_POST["name"];
                                     $spieler2 = $res_spieler2;
+                                    $sqieler_nummer = 1;
 
                                     $sql -> close();
                                     break;
@@ -140,21 +142,33 @@
 
                             $sql-> close();
                         }
+
+                        $amZug = 1;
+                    }
+                    else {
+                        $spieler1 = $_POST["spieler1_name"];
+                        $spieler2 = $_POST["spieler2_name"];
+                        $spieler_nummer = $_POST["spieler_nummer"];
                     }
                 }
             }
+        ?>-->
+
+        <?php
+            echo $spieler1 . " gegen " . $spieler2;
         ?>
 
-        <div id="menü">
-            <a id="online" href="anmeldung.html">Online</a><br>
-            <a id="offline" href="offline.html">Offline</a><br>
-            <a href="löschen.php">Account löschen</a>
-        </div>
-
-        <div id="div1">
-            <?php
-                echo $spieler1 . " gegen " . $spieler2;
-            ?>
+        <div id="div_feld">
+            <form action="online.php" method="POST">
+                <input type="hidden" name="name" value="<?php echo htmlspecialchars(stripslashes(trim($_POST["name"])));?>">
+                <input type="hidden" name="passwort" value="<?php echo htmlspecialchars(stripslashes(trim($_POST["passwort"])));?>">
+                <input type="hidden" name="spieler1_name" value="<?php echo $spieler1;?>">
+                <input type="hidden" name="spieler2_name" value="<?php echo $spieler2;?>">
+                <input type="hidden" name="spieler_nummer" value="<?php echo $spieler_nummer;?>">
+                <input type="hidden" name="amZug" value="<?php echo $amZug;?>">
+                <input type="hidden" name="feld">
+                <input type="submit" id="submit">
+            </form>
         </div>
     </body>
 </html>

@@ -1,12 +1,16 @@
-#menü {
-    width: 10%;
+#submit {
+    visibility: hidden;
 }
 
-#online {
-    color: rgb(151, 27, 27);
+.feld {
+    width: 100px;
+    height: 100px;
 }
 
-#div1 {
-    margin-left: 10%;
-    margin-top: -10%;
+.schwarz {
+    background-color: green;
+}
+
+.weiß {
+    background-color: white;
 }
