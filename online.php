@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <!--<?php
+        <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (!empty($_POST["name"]) && !empty($_POST["passwort"])) {
                     $servername = "localhost";
@@ -152,7 +152,7 @@
                     }
                 }
             }
-        ?>-->
+        ?>
 
         <?php
             echo $spieler1 . " gegen " . $spieler2;
