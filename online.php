@@ -508,7 +508,8 @@
                 <input type="hidden" name="spieler2_name" value="<?php echo $spieler2;?>">
                 <input type="hidden" name="spieler_nummer" value="<?php echo $spieler_nummer;?>">
                 <input type="hidden" name="amZug" value="<?php echo $amZug;?>">
-                <input type="hidden" name="feld">
+                <input type="hidden" name="feld" id="input_feld">
+                <input type="hidden" name="figur" id="input_figur">
                 <input type="submit" id="submit">
             </form>
         </div>

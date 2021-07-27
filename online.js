@@ -33,6 +33,31 @@ for (i = 0; i < felder.length; i += 2) {
     figuren.push(new Figur(art, farbe, figuren[i + 1], "Bilder/" + art + "_" + farbe + ".png", nummer));
 }
 
-for (i = 0; i < figuren.length; i++) {
-    window.alert(figuren[i].name);
+for (i=0; i < figuren.length; i++) {
+    document.getElementById(figuren[i].feld).children[0].src = figuren[i].bild;
+
+    if (figuren[i].name == "bauer") {
+        document.getElementById(figuren[i].feld).children[0].style.marginLeft = "17px";
+    }
+    else if (figuren[i].name == "turm") {
+        document.getElementById(figuren[i].feld).children[0].style.marginLeft = "13px";
+    }
+}
+
+var ausgewaelt = "";
+
+function gedrueckt (feld) {
+    if (ausgewaelt === "") {
+        for (i = 0; i < figuren.length; i++) {
+            if (figuren[i].feld == feld.id) {
+                ausgewaelt = figuren[i];
+                document.getElementById(figuren.feld).style.backgroundColor = "yellow";
+            }
+        }
+    }
+    else {
+        document.getElementById("input_figur").value = ausgewaelt.name + "_" + ausgewaelt.farbe + ausgewaelt.nummer;
+        document.getElementById("input_feld").value = feld.id;
+        document.getElementById("submit").click();
+    }
 }
