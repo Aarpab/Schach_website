@@ -113,6 +113,23 @@
 
                             $sql -> close();
 
+                            $sql = $conn -> prepare("SELECT ID FROM Spiele WHERE Spieler1=?");
+
+                            $sql -> bind_param("s", $_POST["name"]);
+                            $sql -> execute();
+
+                            $sql -> bind_result($res_id);
+
+                            if ($sql -> fetch()) {
+                                $file = fopen("Spiele/" . $res_id . ".txt", "w");
+
+                                fwrite($file, "bauer_weiss1\na2\nbauer_weiss2\nb2\nbauer_weiss3\nc3\nbauer_weiss4\nd2\nbauer_weiss5\ne2\nbauer_weiss6\nf2\nbauer_weiss7\ng2\nbauer_weiss8\nh2\nlaefer_weiss1\nc1\nlaefer_weiss2\nf1\nspringer_weiss1\nb1\nspringer_weiss2\ng1\nturm_weiss1\na1\nturm_weiss2\nh1\ndame_weiss\nd1\nkoenig_weiss\ne1\nbauer_schwarz1\na7\nbauer_schwarz2\nb7\nbauer_schwarz3\nc7\nbauer_schwarz4\nd7\nbauer_schwarz5\ne7\nbauer_schwarz6\nf7\nbauer_schwarz7\ng7\nbauer_schwarz8\nh7\nlaefer_schwarz1\nc8\nlaefer_schwarz2\nf8\nspringer_schwarz1\nb8\nspringer_schwarz2\ng8\nturm_schwarz1\na8\nturm_schwarz2\nh8\ndame_schwarz\nd8\nkoenig_schwarz\ne8\n");
+
+                                fclose($file);
+                            }
+
+                            $sql -> close();
+
                             while (true) {
                                 $sql = $conn -> prepare("SELECT Spieler1, Spieler2 FROM Spiele WHERE Spieler1=? AND NOT Spieler2 IS NULL");
 
@@ -150,6 +167,41 @@
                         $spieler2 = $_POST["spieler2_name"];
                         $spieler_nummer = $_POST["spieler_nummer"];
                     }
+                }
+
+                $sql = $conn -> prepare("SELECT ID FROM Spiele WHERE Spieler1=? OR Spieler2=?");
+
+                $sql -> bind_param("ss", $_POST["name"], $_POST["name"]);
+                $sql -> execute();
+
+                $sql -> bind_result($res_id);
+
+                if ($sql -> fetch()) {
+                    $file = fopen("Spiele/" . $res_id . ".txt", "r");
+                    $zeilen = array();
+
+                    while (!feof($file)) {
+                        $zeile = fgets($file);
+                        $neu = "";
+
+                        for ($i = 0; $i < strlen($zeile) - 1; $i++) {
+                            $neu = $neu . $zeile[$i];
+                        }
+
+                        if ($neu != "") {
+                            array_push($zeilen, $neu);
+                        }
+                    }
+
+                    fclose($file);
+
+                    echo "<script>var felder = [];\n";
+
+                    for ($i = 0; $i < count($zeilen); $i++) {
+                        echo "felder.push('" . $zeilen[$i] . "');\n";
+                    }
+
+                    echo "</script>";
                 }
             }
         ?>
@@ -460,5 +512,7 @@
                 <input type="submit" id="submit">
             </form>
         </div>
+
+        <script src="online.js"></script>
     </body>
 </html>
